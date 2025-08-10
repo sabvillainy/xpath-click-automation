@@ -297,13 +297,16 @@ public class XPathClickAutomation {
      * @param args Komut satırı argümanları (artık kullanılmıyor)
      */
     public static void main(String[] args) {
-        System.out.println("=== XPath Click Automation - Programmatic Usage ===");
+        System.out.println("=== XPath Click Automation ===");
 
+        // https://www.w3schools.com/html/html_forms.asp "//input[@type='text']" "//input[@type='submit']" "//*[contains(text(),'The <form> Element')]" "dasdasd"
         // Örnek kullanım 1: Method chaining ile
         XPathClickAutomation automation1 = new XPathClickAutomation()
-                .setUrl("https://www.google.com")
-                .addXPath("//input[@name='q']")
-                .addXPath("//button[@name='btnK']")
+                .setUrl("https://www.w3schools.com/html/html_forms.asp")
+                .addXPath("//input[@type='text']")
+                .addXPath("//input[@type='submit']")
+                .addXPath("//*[contains(text(),'The <form> Element')]")
+                .addXPath("asdasd")
                 .setHeadless(false)
                 .setClickDelay(2000); // 2 saniye bekle
 
@@ -313,9 +316,11 @@ public class XPathClickAutomation {
             automation1.closeDriver();
         }
 
+
+        /* Örnek kullanım 2: Ayrı ayrı ayarlama
+
         System.out.println("\n=== Örnek 2: Ayrı ayrı ayarlama ===");
 
-        // Örnek kullanım 2: Ayrı ayrı ayarlama
         XPathClickAutomation automation2 = new XPathClickAutomation();
         automation2.setUrl("https://example.com");
         automation2.setXPaths(List.of(
@@ -328,6 +333,6 @@ public class XPathClickAutomation {
             automation2.run();
         } finally {
             automation2.closeDriver();
-        }
+        }*/
     }
 }
