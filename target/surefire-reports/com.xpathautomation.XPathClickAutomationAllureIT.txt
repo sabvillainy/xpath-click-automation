@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.xpathautomation.XPathClickAutomationAllureIT
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 87.77 s -- in com.xpathautomation.XPathClickAutomationAllureIT

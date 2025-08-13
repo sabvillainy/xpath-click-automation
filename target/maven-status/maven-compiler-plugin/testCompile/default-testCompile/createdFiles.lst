@@ -1,1 +1,4 @@
+com\xpathautomation\XPathClickAutomationAllureIT.class
+com\xpathautomation\support\AllureTestWatcher.class
+com\xpathautomation\support\AllureUtils.class
 com\xpathautomation\XPathClickAutomationTest.class

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.xpathautomation.XPathClickAutomationTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 4.521 s -- in com.xpathautomation.XPathClickAutomationTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 5.348 s -- in com.xpathautomation.XPathClickAutomationTest
