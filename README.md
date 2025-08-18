@@ -1,6 +1,6 @@
 # XPath Click Automation
 
-This project is a Java command-line application that uses Selenium WebDriver to find and click HTML elements specified by XPath on web sites.
+Java CLI application that uses Selenium WebDriver to navigate to a URL and click elements found by XPath, in the order you provide.
 
 ## Features
 
@@ -10,7 +10,7 @@ This project is a Java command-line application that uses Selenium WebDriver to 
 - 🛡️ Error handling and reporting
 - 📦 Maven project management
 - 🔄 WebDriverManager for automatic driver management
-- 🎛️ **Programmatic usage** - Parameter configuration through code
+- 📊 Allure reporting support via tests (steps and screenshots)
 
 ## Requirements
 
@@ -18,143 +18,76 @@ This project is a Java command-line application that uses Selenium WebDriver to 
 - Maven 3.6 or higher
 - Chrome browser (WebDriverManager will automatically download ChromeDriver)
 
-## Installation
-
-1. Clone the project:
-```bash
-git clone <repository-url>
-cd xpath-click-automation
-```
-
-2. Download Maven dependencies:
-```bash
-mvn clean install
-```
-
-## Usage
-
-### 🎛️ Programmatic Usage (Recommended)
-
-You can now configure parameters through code instead of command line arguments:
-
-#### Method Chaining Usage
-
-```java
-XPathClickAutomation automation = new XPathClickAutomation()
-    .setUrl("https://www.google.com")
-    .addXPath("//input[@name='q']")
-    .addXPath("//button[@name='btnK']")
-    .setHeadless(false)
-    .setClickDelay(2000) // Wait 2 seconds
-    .setWaitTimeout(15); // 15 seconds timeout
-
-try {
-    automation.run();
-} finally {
-    automation.closeDriver();
-}
-```
-
-#### Separate Configuration
-
-```java
-XPathClickAutomation automation = new XPathClickAutomation();
-automation.setUrl("https://example.com");
-automation.setXPaths(List.of(
-    "//nav//a[contains(text(),'About')]",
-    "//nav//a[contains(text(),'Contact')]"
-));
-automation.setHeadless(true); // Run in headless mode
-automation.setWaitTimeout(15); // Wait 15 seconds
-
-try {
-    automation.run();
-} finally {
-    automation.closeDriver();
-}
-```
-
-#### Single XPath Addition
-
-```java
-XPathClickAutomation automation = new XPathClickAutomation()
-    .setUrl("https://example.com")
-    .addXPath("//button[@id='submit']")
-    .addXPath("//input[@name='username']")
-    .addXPath("//input[@name='password']");
-
-automation.run();
-automation.closeDriver();
-```
-
-### 🔧 Available Methods
-
-| Method | Description | Example |
-|--------|-------------|---------|
-| `setUrl(String url)` | Sets the target URL | `.setUrl("https://example.com")` |
-| `setXPaths(List<String> xpaths)` | Sets the XPath list | `.setXPaths(List.of("//button", "//input"))` |
-| `addXPath(String xpath)` | Adds a single XPath | `.addXPath("//button[@id='submit']")` |
-| `setHeadless(boolean headless)` | Sets headless mode | `.setHeadless(true)` |
-| `setClickDelay(int ms)` | Sets click delay | `.setClickDelay(2000)` |
-| `setWaitTimeout(int seconds)` | Sets wait timeout | `.setWaitTimeout(15)` |
-| `run()` | Runs the automation | `automation.run()` |
-| `closeDriver()` | Closes the WebDriver | `automation.closeDriver()` |
-
-### 📝 IntelliJ IDEA Usage
-
-1. Open `XPathClickAutomation.java` file
-2. Find the `main` method
-3. Modify the example code according to your needs
-4. Click the Run button
-
-**Example main method:**
-```java
-public static void main(String[] args) {
-    XPathClickAutomation automation = new XPathClickAutomation()
-        .setUrl("https://www.google.com")
-        .addXPath("//input[@name='q']")
-        .addXPath("//button[@name='btnK']")
-        .setHeadless(false)
-        .setClickDelay(1000);
-
-    try {
-        automation.run();
-    } finally {
-        automation.closeDriver();
-    }
-}
-```
-
-### Running with Maven
+## Build
 
 ```bash
-# Compile and run the project
-mvn clean compile exec:java -Dexec.mainClass="com.xpathautomation.XPathClickAutomation"
+mvn -q -DskipTests package
 ```
 
-### Running with JAR File
+The runnable jar is produced at `target/xpath-click-automation-1.0.0.jar`.
 
-1. First, create the JAR file:
+## Usage (CLI)
+
+Minimum (one XPath):
+```bash
+java -jar target/xpath-click-automation-1.0.0.jar --url "https://example.com" --xpath "//button[@id='go']"
+```
+
+Multiple XPaths (executed in order):
+```bash
+java -jar target/xpath-click-automation-1.0.0.jar \
+  --url "https://www.w3schools.com/html/html_forms.asp" \
+  --xpath "//input[@type='text']" \
+  --xpath "//input[@type='submit']"
+```
+
+Optional flags:
+- `--headless` run without opening a browser window
+- `--delay <ms>` delay between clicks in milliseconds (default: 1000)
+- `--timeout <s>` wait timeout in seconds (default: 10)
+
+Help:
+```bash
+java -jar target/xpath-click-automation-1.0.0.jar --help
+```
+
+### Notes
+
+- Keep the entire XPath in quotes. If you must include double quotes inside the XPath, the app automatically converts them to single quotes at runtime.
+- WebDriverManager downloads the matching ChromeDriver automatically.
+
+## Allure Report (via tests)
+
+The project includes JUnit 5 tests with Allure annotations and automatic screenshots.
+
+1) Run tests (this generates Allure results under `target/allure-results`):
+```bash
+mvn test
+```
+
+2) Generate the Allure HTML report:
+```bash
+mvn allure:report
+```
+
+The report is generated at `target/site/allure-maven-plugin/index.html`.
+
+## Build and Test
+
 ```bash
 mvn clean package
 ```
 
-2. Run the created JAR file:
-```bash
-java -jar target/xpath-click-automation-1.0.0.jar
-```
-
 ## Examples
 
-### Google Search
-```java
-XPathClickAutomation automation = new XPathClickAutomation()
-    .setUrl("https://www.google.com")
-    .addXPath("//input[@name='q']")
-    .addXPath("//button[@name='btnK']");
+## Examples (CLI)
 
-automation.run();
-automation.closeDriver();
+Google Search (two steps):
+```bash
+java -jar target/xpath-click-automation-1.0.0.jar \
+  --url "https://www.google.com" \
+  --xpath "//input[@name='q']" \
+  --xpath "//button[@name='btnK']"
 ```
 
 ### Clicking Menu Items on a Website
@@ -207,16 +140,19 @@ automation.closeDriver();
 ## Project Structure
 
 ```
-xpath-click-automation/
-├── src/
-│   ├── main/java/com/xpathautomation/
-│   │   └── XPathClickAutomation.java
-│   └── test/java/com/xpathautomation/
-│       └── XPathClickAutomationTest.java
-├── pom.xml
-├── README.md
-└── target/
-    └── xpath-click-automation-1.0.0.jar
+src/
+  main/java/com/xpathautomation/
+    XPathClickAutomation.java
+  test/java/com/xpathautomation/
+    support/
+      AllureUtils.java
+      AllureTestWatcher.java
+    XPathClickAutomationAllureIT.java
+    XPathClickAutomationTest.java
+pom.xml
+README.md
+target/
+  xpath-click-automation-1.0.0.jar
 ```
 
 ## Testing
@@ -238,14 +174,14 @@ The application handles the following error conditions:
 - **XPath quote problem**: Double quotes are automatically converted to single quotes
 - **Configuration error**: If URL or XPath is not set, an appropriate error message is shown
 
-## Output Example
+## Output Example (CLI)
 
 ```
-=== XPath Click Automation - Programmatic Usage ===
+=== XPath Click Automation (CLI) ===
 Chrome WebDriver successfully started.
 Navigating to URL: https://www.google.com
 Page successfully loaded.
-Total 2 XPath to process.
+Total 2 XPath(s) to process.
 
 --- Processing XPath 1/2 ---
 Searching for element with XPath: //input[@name='q']
@@ -258,7 +194,7 @@ Element successfully clicked: //button[@name='btnK']
 === Process Completed ===
 Successful clicks: 2
 Failed clicks: 0
-Total XPath: 2
+Total XPaths: 2
 WebDriver successfully closed.
 ```
 

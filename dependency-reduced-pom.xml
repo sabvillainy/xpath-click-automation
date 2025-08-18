@@ -48,6 +48,20 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.2</version>
+        <configuration>
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+            <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
+          </systemPropertyVariables>
+          <properties>
+            <configurationParameters>junit.jupiter.extensions.autodetection.enabled=true</configurationParameters>
+          </properties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>2.12.0</version>
       </plugin>
     </plugins>
   </build>
@@ -72,12 +86,33 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit5</artifactId>
+      <version>2.25.0</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>allure-junit-platform</artifactId>
+          <groupId>io.qameta.allure</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-platform-launcher</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter-api</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <webdrivermanager.version>5.6.2</webdrivermanager.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>24</maven.compiler.target>
     <selenium.version>4.15.0</selenium.version>
     <maven.compiler.source>24</maven.compiler.source>
+    <allure.version>2.25.0</allure.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
